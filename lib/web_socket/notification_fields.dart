@@ -16,7 +16,8 @@ class NotificationFields {
   NotificationFields.fromMap(Map<String, dynamic> json) {
     if (json != null) {
       eventName = json['eventName'];
-      eventType = notificationEventFromString(eventName.split('/').last);
+      if (eventName != null)
+        eventType = notificationEventFromString(eventName.split('/').last);
       if (json['args'] != null) {
         List<dynamic> jsonList = json['args'].runtimeType == String //
             ? jsonDecode(json['args'])

@@ -127,4 +127,10 @@ class WebSocketService {
     };
     webSocketChannel.sink.add(jsonEncode(msg));
   }
+
+  void listen({
+    String channel, Function func
+  }) {
+
+  }
 }
