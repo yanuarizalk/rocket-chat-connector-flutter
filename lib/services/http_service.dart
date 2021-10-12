@@ -10,8 +10,10 @@ class HttpService {
   }
 
   Future<http.Response> getWithFilter(
-          String uri, Filter filter, Authentication authentication) async =>
-      await http.get(_apiUrl + uri + '?' + _urlEncode(filter.toMap()),
+          String uri, Filter filter, Authentication authentication, {
+            Map query
+}) async =>
+      await http.get(_apiUrl + uri + '?' + _urlEncode(filter != null ? filter.toMap() : query),
           headers: await _getHeaders(authentication));
 
   Future<http.Response> get(String uri, Authentication authentication) async =>

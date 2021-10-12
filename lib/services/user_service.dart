@@ -1,14 +1,17 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:rocket_chat_connector_flutter/exceptions/exception.dart';
 import 'package:rocket_chat_connector_flutter/models/authentication.dart';
+import 'package:rocket_chat_connector_flutter/models/filters/filter.dart';
 import 'package:rocket_chat_connector_flutter/models/new/user_new.dart';
 import 'package:rocket_chat_connector_flutter/models/user.dart';
 import 'package:rocket_chat_connector_flutter/services/http_service.dart';
 
 class UserService {
   HttpService _httpService;
+  Authentication authentication;
 
   UserService(this._httpService);
 
@@ -24,6 +27,46 @@ class UserService {
         return User.fromMap(jsonDecode(response.body));
       } else {
         return User();
+      }
+    }
+    throw RocketChatException(response?.body);
+  }
+
+  getAvatar({ String username, String userId }) async {
+    http.Response response = await _httpService.getWithFilter(
+      '/api/v1/users.getAvatar',
+      null,
+      authentication,
+      query: {
+        'userId': userId, 'username': username
+      }
+    );
+
+    if (response?.statusCode == 200) {
+      if (response?.body?.isNotEmpty == true) {
+        return Image.memory(response.bodyBytes);
+      } else {
+        return null;
+      }
+    }
+    throw RocketChatException(response?.body);
+  }
+
+  getInfo({ String username, String userId }) async {
+    http.Response response = await _httpService.getWithFilter(
+        '/api/v1/users.info',
+        null,
+        authentication,
+        query: {
+          'userId': userId, 'username': username
+        }
+    );
+
+    if (response?.statusCode == 200) {
+      if (response?.body?.isNotEmpty == true) {
+        return jsonDecode(response.body);
+      } else {
+        return null;
       }
     }
     throw RocketChatException(response?.body);
