@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -32,7 +33,7 @@ class UserService {
     throw RocketChatException(response?.body);
   }
 
-  getAvatar({ String username, String userId }) async {
+  Future<Uint8List> getAvatar({ String username, String userId }) async {
     http.Response response = await _httpService.getWithFilter(
       '/api/v1/users.getAvatar',
       null,
@@ -44,7 +45,7 @@ class UserService {
 
     if (response?.statusCode == 200) {
       if (response?.body?.isNotEmpty == true) {
-        return Image.memory(response.bodyBytes);
+        return response.bodyBytes;
       } else {
         return null;
       }
