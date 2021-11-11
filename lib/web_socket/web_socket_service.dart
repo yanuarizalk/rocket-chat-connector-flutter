@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:rocket_chat_connector_flutter/models/authentication.dart';
 import 'package:rocket_chat_connector_flutter/models/channel.dart';
@@ -102,6 +103,51 @@ class WebSocketService {
     };
 
     webSocketChannel.sink.add(jsonEncode(msg));
+  }
+  void liveChatRegisterGuest(
+      WebSocketChannel webSocketChannel, {
+      String name, String email, String department
+  }) {
+    Map msg = {
+      "msg": "method",
+      "method": "livechat:registerGuest",
+      // "id": "lcr-${_rand(17)}",
+      "id": "420",
+      "params": [
+        {
+          "token": _rand(17), "name": name,
+          "email": email, "department": department
+        }
+      ]
+    };
+
+    webSocketChannel.sink.add(jsonEncode(msg));
+  }
+  void liveChatSendMessage(
+      WebSocketChannel webSocketChannel, {
+      String rid, String message, String token,
+      String id
+  }) {
+    Map msg = {
+      "msg": "method",
+      "method": "sendMessageLivechat",
+      //"id": "lcs-${_rand(17)}",
+      "id": "520",
+      "params": [
+        {
+          "_id": "$id/${_rand(17)}", "rid": rid,
+          "token": token, "msg": message,
+        }
+      ]
+    };
+
+    webSocketChannel.sink.add(jsonEncode(msg));
+  }
+  String _rand(int length) {
+    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random _rnd = Random();
+    return String.fromCharCodes(Iterable.generate(
+        length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
   }
 
   void sendMessageOnRoom(

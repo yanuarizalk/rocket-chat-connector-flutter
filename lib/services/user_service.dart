@@ -53,7 +53,7 @@ class UserService {
     throw RocketChatException(response?.body);
   }
 
-  getInfo({ String username, String userId }) async {
+  Future<User> getInfo({ String username, String userId }) async {
     http.Response response = await _httpService.getWithFilter(
         '/api/v1/users.info',
         null,
@@ -65,7 +65,7 @@ class UserService {
 
     if (response?.statusCode == 200) {
       if (response?.body?.isNotEmpty == true) {
-        return jsonDecode(response.body);
+        return User.fromMap(jsonDecode(response.body));
       } else {
         return null;
       }

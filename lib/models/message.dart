@@ -61,7 +61,7 @@ class Message {
       groupable = json['groupable'];
       t = json['t'];
       ts = json['ts'] != null ? DateTime.parse(json['ts']) : null;
-      user = json['u'] != null ? User.fromMap(json['u']) : null;
+      user = json['u'] != null ? User.fromMap( (json['u'] as Map).cast<String, dynamic>() ) : null;
       rid = json['rid'];
       updatedAt = json['_updatedAt'] != null
           ? DateTime.parse(json['_updatedAt'])

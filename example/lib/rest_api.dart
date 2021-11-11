@@ -60,7 +60,8 @@ Future main(List<String> args) async {
 
   // send message
   MessageNew messageNew = MessageNew(roomId: channel.id, text: "my message");
+  messageService.authentication = authentication;
   MessageNewResponse response =
-      await messageService.postMessage(messageNew, authentication);
+      await messageService.postMessage(messageNew);
   print("Message send success : ${response.success}");
 }

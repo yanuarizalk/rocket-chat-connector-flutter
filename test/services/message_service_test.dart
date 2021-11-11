@@ -34,8 +34,9 @@ void main() {
       authenticationMock,
     )).thenAnswer((_) => Future(() => response));
 
+    messageService.authentication = authenticationMock;
     MessageNewResponse messageResponse =
-        await messageService.postMessage(message, authenticationMock);
+        await messageService.postMessage(message);
     expect(messageResponse.success, true);
   });
 }
