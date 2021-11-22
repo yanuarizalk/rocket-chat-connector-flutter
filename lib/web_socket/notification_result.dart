@@ -12,6 +12,7 @@ class NotificationResult {
   DateTime updatedAt;
   List<String> mentions;
   List<String> channels;
+  Map<String, dynamic> visitor = {};
 
   NotificationResult({
     this.id,
@@ -25,6 +26,7 @@ class NotificationResult {
     this.updatedAt,
     this.mentions,
     this.channels,
+    this.visitor
   });
 
   NotificationResult.fromMap(Map<String, dynamic> json) {
@@ -50,6 +52,7 @@ class NotificationResult {
           json['mentions'] != null ? List<String>.from(json['mentions']) : null;
       channels =
           json['channels'] != null ? List<String>.from(json['channels']) : null;
+      visitor = json['visitor'] ?? {};
     }
   }
 

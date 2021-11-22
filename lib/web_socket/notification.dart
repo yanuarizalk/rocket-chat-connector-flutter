@@ -12,6 +12,7 @@ class Notification {
   String id;
   NotificationFields fields;
   NotificationResult result;
+  Map<String, dynamic> resultRaw;
 
   Notification({
     this.msg,
@@ -39,6 +40,7 @@ class Notification {
       result = json['result'] != null
           ? NotificationResult.fromMap(json['result'])
           : null;
+      resultRaw = json['result'];
     }
   }
 

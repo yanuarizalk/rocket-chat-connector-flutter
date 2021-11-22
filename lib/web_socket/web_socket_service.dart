@@ -104,38 +104,60 @@ class WebSocketService {
 
     webSocketChannel.sink.add(jsonEncode(msg));
   }
+
+  String liveChatCheck(WebSocketChannel webSocketChannel, String id, {
+    String token
+  }) {
+    token ??= _rand(17);
+    Map msg = {
+      "msg": "method",
+      "method": "livechat:getInitialData",
+      // "id": "lcr-${_rand(17)}",
+      "id": "440",
+      "params": [
+        token
+      ]
+    };
+
+    webSocketChannel.sink.add(jsonEncode(msg));
+    return token;
+  }
+  /* Will return id
+  * */
   void liveChatRegisterGuest(
-      WebSocketChannel webSocketChannel, {
-      String name, String email, String department
+    WebSocketChannel webSocketChannel,
+    String id, {
+      String name, String email, String department,
+      String token
   }) {
     Map msg = {
       "msg": "method",
       "method": "livechat:registerGuest",
       // "id": "lcr-${_rand(17)}",
-      "id": "420",
+      "id": id,
       "params": [
         {
-          "token": _rand(17), "name": name,
+          "token": token ?? _rand(17), "name": name,
           "email": email, "department": department
         }
       ]
     };
 
     webSocketChannel.sink.add(jsonEncode(msg));
+    //return id;
   }
   void liveChatSendMessage(
-      WebSocketChannel webSocketChannel, {
-      String rid, String message, String token,
-      String id
+      WebSocketChannel webSocketChannel, String id, {
+      String rid, String message, String token
   }) {
     Map msg = {
       "msg": "method",
       "method": "sendMessageLivechat",
       //"id": "lcs-${_rand(17)}",
-      "id": "520",
+      "id": id,
       "params": [
         {
-          "_id": "$id/${_rand(17)}", "rid": rid,
+          "_id": "$rid/${_rand(17)}", "rid": rid,
           "token": token, "msg": message,
         }
       ]

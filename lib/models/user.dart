@@ -46,7 +46,7 @@ class User {
             : json['emails'];
         emails = jsonList
             .where((json) => json != null)
-            .map((json) => Email.fromMap(json))
+            .map((json) => Email.fromMap(Map<String, dynamic>.from(json)))
             .toList();
       } else {
         emails = null;
