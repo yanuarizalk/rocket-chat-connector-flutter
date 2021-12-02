@@ -105,6 +105,27 @@ class WebSocketService {
     webSocketChannel.sink.add(jsonEncode(msg));
   }
 
+  void streamLiveChatRoomSubscribe(
+    WebSocketChannel webSocketChannel, String id, String roomId, String token, {
+    bool agentInstead = false
+  }) {
+    Map msg = {
+      "msg": "sub",
+      "id": id ,
+      "name": agentInstead ? "stream-livechat-room" : "stream-room-messages",
+      // "name": "stream-livechat-room",
+      "params": [
+        roomId,
+        {
+          'useCollection': false,
+          'args': [
+            {'visitorToken': token}
+          ]
+        }
+      ]
+    };
+    webSocketChannel.sink.add(jsonEncode(msg));
+  }
   String liveChatCheck(WebSocketChannel webSocketChannel, String id, {
     String token
   }) {
