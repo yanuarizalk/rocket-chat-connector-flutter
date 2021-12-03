@@ -51,4 +51,29 @@ class MessageService {
     }
     throw RocketChatException(response?.body);
   }
+  Future<Map<String, dynamic>> syncMessage({
+    String roomId, DateTime sinceWhen,
+  }) async {
+    http.Response response = await _httpService.getWithFilter(
+        '/api/v1/chat.syncMessages',
+        null,
+        authentication,
+        query: {
+          'roomId': roomId,
+          'updatedSince': sinceWhen.toIso8601String()
+        }
+    );
+
+    if (response?.statusCode == 200) {
+      if (response?.body?.isNotEmpty == true) {
+        var result = jsonDecode(response.body);
+        if (result['success'])
+          return result;
+        else throw RocketChatException(response.body);
+      } else {
+        return null;
+      }
+    }
+    throw RocketChatException(response?.body);
+  }
 }
