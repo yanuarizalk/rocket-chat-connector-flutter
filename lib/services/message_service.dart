@@ -51,29 +51,53 @@ class MessageService {
     }
     throw RocketChatException(response?.body);
   }
-  Future<Map<String, dynamic>> syncMessage({
+  Future<Map<String, dynamic>> syncMessage(
     String roomId, DateTime sinceWhen,
-  }) async {
+  ) async {
     http.Response response = await _httpService.getWithFilter(
         '/api/v1/chat.syncMessages',
         null,
         authentication,
         query: {
           'roomId': roomId,
-          'updatedSince': sinceWhen.toIso8601String()
+          'lastUpdate': sinceWhen.toIso8601String()
         }
     );
+    dynamic result;
 
-    if (response?.statusCode == 200) {
-      if (response?.body?.isNotEmpty == true) {
-        var result = jsonDecode(response.body);
-        if (result['success'])
-          return result;
-        else throw RocketChatException(response.body);
-      } else {
-        return null;
-      }
+    if (response?.body?.isNotEmpty == true) {
+      result = jsonDecode(response.body);
+      /*if (result['success'])
+        return result;*/
+      // else throw RocketChatException(response.body);
+    } else {
+      return null;
     }
-    throw RocketChatException(response?.body);
+    return result;
+    // throw RocketChatException(response?.body);
+  }
+  Future<Map<String, dynamic>> loadLivechatHistory(
+    String roomId, String token, {
+      DateTime start, DateTime end, int limit
+  }) async {
+    http.Response response = await _httpService.getWithFilter(
+      '/api/v1/livechat/messages.history/$roomId',
+      null,
+      null,
+      query: {
+        'token': token,
+        'ls': start.toIso8601String(),
+        'end': end.toIso8601String(),
+        'limit': limit,
+      }
+    );
+    dynamic result;
+
+    if (response?.body?.isNotEmpty == true) {
+      result = jsonDecode(response.body);
+    } else {
+      return null;
+    }
+    return result;
   }
 }
