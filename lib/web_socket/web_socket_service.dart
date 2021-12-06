@@ -129,7 +129,7 @@ class WebSocketService {
   String liveChatCheck(WebSocketChannel webSocketChannel, String id, {
     String token
   }) {
-    token ??= _rand(17);
+    token ??= _rand(43);
     Map msg = {
       "msg": "method",
       "method": "livechat:getInitialData",
