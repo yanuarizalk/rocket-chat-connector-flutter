@@ -24,14 +24,14 @@ class UserService {
       authentication,
     );
 
-    if (response?.statusCode == 200) {
-      if (response?.body?.isNotEmpty == true) {
+    if (response.statusCode == 200) {
+      if (response.body.isNotEmpty == true) {
         return User.fromMap(jsonDecode(response.body));
       } else {
         return User();
       }
     }
-    throw RocketChatException(response?.body);
+    throw RocketChatException(response.body);
   }
 
   Future<Uint8List> getAvatar({ String username, String userId }) async {

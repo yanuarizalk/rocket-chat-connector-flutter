@@ -22,14 +22,14 @@ class MessageService {
       authentication,
     );
 
-    if (response?.statusCode == 200) {
-      if (response?.body?.isNotEmpty == true) {
+    if (response.statusCode == 200) {
+      if (response.body.isNotEmpty == true) {
         return MessageNewResponse.fromMap(jsonDecode(response.body));
       } else {
         return MessageNewResponse();
       }
     }
-    throw RocketChatException(response?.body);
+    throw RocketChatException(response.body);
   }
 
   Future<Message> getMessage({ String msgId }) async {

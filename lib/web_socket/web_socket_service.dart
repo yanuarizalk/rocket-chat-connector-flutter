@@ -33,7 +33,7 @@ class WebSocketService {
       "method": "login",
       "id": "42",
       "params": [
-        {"resume": authentication.data.authToken}
+        {"resume": authentication.data!.authToken}
       ]
     };
 
@@ -43,9 +43,9 @@ class WebSocketService {
   void streamNotifyUserSubscribe(WebSocketChannel webSocketChannel, User user) {
     Map msg = {
       "msg": "sub",
-      "id": user.id + "subscription-id",
+      "id": user.id! + "subscription-id",
       "name": "stream-notify-user",
-      "params": [user.id + "/notification", false]
+      "params": [user.id! + "/notification", false]
     };
 
     webSocketChannel.sink.add(jsonEncode(msg));
@@ -55,7 +55,7 @@ class WebSocketService {
       WebSocketChannel webSocketChannel, Channel channel) {
     Map msg = {
       "msg": "sub",
-      "id": channel.id + "subscription-id",
+      "id": channel.id! + "subscription-id",
       "name": "stream-room-messages",
       "params": [channel.id, false]
     };
@@ -66,7 +66,7 @@ class WebSocketService {
       WebSocketChannel webSocketChannel, Channel channel) {
     Map msg = {
       "msg": "unsub",
-      "id": channel.id + "subscription-id",
+      "id": channel.id! + "subscription-id",
     };
     webSocketChannel.sink.add(jsonEncode(msg));
   }
@@ -75,7 +75,7 @@ class WebSocketService {
       WebSocketChannel webSocketChannel, Room room) {
     Map msg = {
       "msg": "sub",
-      "id": room.id + "subscription-id",
+      "id": room.id! + "subscription-id",
       "name": "stream-room-messages",
       "params": [room.id, false]
     };
@@ -86,7 +86,7 @@ class WebSocketService {
       WebSocketChannel webSocketChannel, Room room) {
     Map msg = {
       "msg": "unsub",
-      "id": room.id + "subscription-id",
+      "id": room.id! + "subscription-id",
     };
     webSocketChannel.sink.add(jsonEncode(msg));
   }
