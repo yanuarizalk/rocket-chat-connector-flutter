@@ -87,7 +87,7 @@ class MessageService {
       query: {
         'token': token,
         'ls': start.toIso8601String(),
-        'end': end.toIso8601String(),
+        'end': end?.toIso8601String(),
         'limit': limit,
       }
     );
