@@ -17,7 +17,7 @@ class NotificationFields {
     if (json != null) {
       eventName = json['eventName'];
       if (eventName != null)
-        eventType = notificationEventFromString(eventName.split('/').last);
+        eventType = notificationEventFromString(eventName!.split('/').last);
       if (json['args'] != null) {
         List<dynamic> jsonList = json['args'].runtimeType == String //
             ? jsonDecode(json['args'])

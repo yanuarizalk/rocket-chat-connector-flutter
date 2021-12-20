@@ -10,7 +10,7 @@ import 'package:rocket_chat_connector_flutter/services/http_service.dart';
 
 class MessageService {
   HttpService _httpService;
-  Authentication authentication;
+  Authentication authentication = Authentication();
 
   MessageService(this._httpService);
 
@@ -32,7 +32,7 @@ class MessageService {
     throw RocketChatException(response.body);
   }
 
-  Future<Message> getMessage({ String msgId }) async {
+  Future<Message?> getMessage({ required String msgId }) async {
     http.Response response = await _httpService.getWithFilter(
         '/api/v1/chat.getMessage',
         null,
@@ -42,16 +42,15 @@ class MessageService {
         }
     );
 
-    if (response?.statusCode == 200) {
-      if (response?.body?.isNotEmpty == true) {
+    if (response.statusCode == 200) {
+      if (response.body.isNotEmpty == true) {
         return Message.fromMap(jsonDecode(response.body));
       } else {
         return null;
       }
     }
-    throw RocketChatException(response?.body);
   }
-  Future<Map<String, dynamic>> syncMessage(
+  Future<Map<String, dynamic>?> syncMessage(
     String roomId, DateTime sinceWhen,
   ) async {
     http.Response response = await _httpService.getWithFilter(
@@ -65,7 +64,7 @@ class MessageService {
     );
     dynamic result;
 
-    if (response?.body?.isNotEmpty == true) {
+    if (response.body.isNotEmpty == true) {
       result = jsonDecode(response.body);
       /*if (result['success'])
         return result;*/
@@ -76,14 +75,14 @@ class MessageService {
     return result;
     // throw RocketChatException(response?.body);
   }
-  Future<Map<String, dynamic>> loadLivechatHistory(
+  Future<Map<String, dynamic>?> loadLivechatHistory(
     String roomId, String token, {
-      DateTime start, DateTime end, int limit
+      required DateTime start, DateTime? end, int? limit
   }) async {
     http.Response response = await _httpService.getWithFilter(
       '/api/v1/livechat/messages.history/$roomId',
       null,
-      null,
+      Authentication(),
       query: {
         'token': token,
         'ls': start.toIso8601String(),
@@ -93,7 +92,7 @@ class MessageService {
     );
     dynamic result;
 
-    if (response?.body?.isNotEmpty == true) {
+    if (response.body.isNotEmpty == true) {
       result = jsonDecode(response.body);
     } else {
       return null;

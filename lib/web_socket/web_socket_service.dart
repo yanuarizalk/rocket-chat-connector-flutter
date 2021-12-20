@@ -127,7 +127,7 @@ class WebSocketService {
     webSocketChannel.sink.add(jsonEncode(msg));
   }
   String liveChatCheck(WebSocketChannel webSocketChannel, String id, {
-    String token
+    String? token
   }) {
     token ??= _rand(43);
     Map msg = {
@@ -148,8 +148,8 @@ class WebSocketService {
   void liveChatRegisterGuest(
     WebSocketChannel webSocketChannel,
     String id, {
-      String name, String email, String department,
-      String token
+      required String name, required String email, String? department,
+      String? token
   }) {
     Map msg = {
       "msg": "method",
@@ -169,7 +169,7 @@ class WebSocketService {
   }
   void liveChatSendMessage(
       WebSocketChannel webSocketChannel, String id, {
-      String rid, String message, String token
+      required String rid, required String message, required String token
   }) {
     Map msg = {
       "msg": "method",
@@ -217,9 +217,9 @@ class WebSocketService {
     webSocketChannel.sink.add(jsonEncode(msg));
   }
 
-  void listen({
+  /*void listen({
     String channel, Function func
   }) {
 
-  }
+  }*/
 }

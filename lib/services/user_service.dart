@@ -13,7 +13,7 @@ import 'package:rocket_chat_connector_flutter/services/http_service.dart';
 
 class UserService {
   HttpService _httpService;
-  Authentication authentication;
+  Authentication authentication = Authentication();
 
   UserService(this._httpService);
 
@@ -34,7 +34,7 @@ class UserService {
     throw RocketChatException(response.body);
   }
 
-  Future<Uint8List> getAvatar({ String username, String userId }) async {
+  Future<Uint8List?> getAvatar({ String? username, String? userId }) async {
     http.Response response = await _httpService.getWithFilter(
       '/api/v1/users.getAvatar',
       null,
@@ -44,17 +44,17 @@ class UserService {
       }
     );
 
-    if (response?.statusCode == 200) {
-      if (response?.body?.isNotEmpty == true) {
+    if (response.statusCode == 200) {
+      if (response.body.isNotEmpty == true) {
         return response.bodyBytes;
       } else {
         return null;
       }
     }
-    throw RocketChatException(response?.body);
+    //throw RocketChatException(response?.body);
   }
 
-  Future<User> getInfo({ String username, String userId, bool rawMap = true }) async {
+  Future<User?> getInfo({ String? username, String? userId, bool rawMap = true }) async {
     http.Response response = await _httpService.getWithFilter(
         '/api/v1/users.info',
         null,
@@ -64,8 +64,8 @@ class UserService {
         }
     );
 
-    if (response?.statusCode == 200) {
-      if (response?.body?.isNotEmpty == true) {
+    if (response.statusCode == 200) {
+      if (response.body.isNotEmpty == true) {
         var decoded = jsonDecode(response.body);
         // return decoded;
         if (decoded['success'])
@@ -75,6 +75,6 @@ class UserService {
         return null;
       }
     }
-    throw RocketChatException(response?.body);
+    //throw RocketChatException(response?.body);
   }
 }
