@@ -12,6 +12,8 @@ class Notification {
   String? id;
   NotificationFields? fields;
   NotificationResult? result;
+  Map<String, dynamic>? resultRaw;
+  Map<String, dynamic>? raw;
 
   Notification({
     this.msg,
@@ -21,7 +23,7 @@ class Notification {
     this.methods,
     this.id,
     this.fields,
-    this.result,
+    this.result
   });
 
   Notification.fromMap(Map<String, dynamic> json) {
@@ -39,6 +41,8 @@ class Notification {
       result = json['result'] != null
           ? NotificationResult.fromMap(json['result'])
           : null;
+      resultRaw = json['result'];
+      raw = json;
     }
   }
 

@@ -28,7 +28,7 @@ class MockHttpService extends _i1.Mock implements _i3.HttpService {
 
   @override
   _i4.Future<_i2.Response> getWithFilter(String? uri, _i5.Filter? filter,
-          _i6.Authentication? authentication) =>
+          _i6.Authentication? authentication, {Map query = const {}}) =>
       (super.noSuchMethod(
               Invocation.method(#getWithFilter, [uri, filter, authentication]),
               returnValue: Future.value(_FakeResponse()))
